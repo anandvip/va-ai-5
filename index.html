@@ -1,387 +1,251 @@
-<!DOCTYPE html><html lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>VipulFlow - Companion Reflection Tool</title>
-
   <style>
-
     body {
-
       font-family: 'Segoe UI', sans-serif;
-
       background: #f2f4f8;
-
       color: #333;
-
       padding: 2rem;
-
     }
-
-    h1 {
-
+    h1, .instructions {
       text-align: center;
-
       color: #2c3e50;
-
     }
-
+    .instructions {
+      font-size: 0.95rem;
+      margin-top: -1rem;
+      margin-bottom: 2rem;
+    }
     .section {
-
       background: #fff;
-
       padding: 1rem 1.5rem;
-
       margin: 1rem auto;
-
       max-width: 600px;
-
       border-radius: 12px;
-
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-
     }
-
     label, select, textarea, button, #editable-title {
-
       display: block;
-
       width: 100%;
-
       margin: 0.5rem 0;
-
       font-size: 1rem;
-
     }
-
     #editable-title {
-
       text-align: center;
-
       font-size: 1.8rem;
-
       color: #2c3e50;
-
       font-weight: bold;
-
       border: none;
-
       background: transparent;
-
       outline: none;
-
       resize: none;
-
     }
-
     button {
-
       background-color: #2c3e50;
-
       color: white;
-
       padding: 0.5rem;
-
       border: none;
-
       border-radius: 8px;
-
       cursor: pointer;
-
     }
-
     .flow-links a {
-
       display: inline-block;
-
       margin: 0.3rem 0.5rem;
-
       color: #1e6f2f;
-
       text-decoration: none;
-
     }
-
     .breathing-box {
-
       width: 100px;
-
       height: 100px;
-
       margin: 1rem auto;
-
       border-radius: 50%;
-
       background-color: #a3d5a3;
-
       animation: breathe 6s infinite;
-
     }
-
     @keyframes breathe {
-
       0%, 100% { transform: scale(1); }
-
       50% { transform: scale(1.5); }
-
     }
-
     .toast {
-
       position: fixed;
-
       bottom: 20px;
-
       left: 50%;
-
       transform: translateX(-50%);
-
       background: #2c3e50;
-
       color: white;
-
       padding: 0.75rem 1.5rem;
-
       border-radius: 8px;
-
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
       opacity: 0;
-
       transition: opacity 0.3s ease-in-out;
-
       z-index: 9999;
-
     }
-
     .toast.show {
-
       opacity: 1;
-
     }
-
     .log-entry {
-
       border-top: 1px solid #eee;
-
       padding: 0.5rem 0;
-
     }
-
     .log-entry p {
-
       margin: 0.3rem 0;
-
     }
-
     .bar {
-
       background-color: #2c3e50;
-
       height: 10px;
-
       margin: 0.2rem 0 1rem;
-
       border-radius: 4px;
-
     }
-
+    .copy-area {
+      margin-top: 1rem;
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      word-break: break-word;
+      font-size: 0.9rem;
+    }
   </style>
-
 </head>
-
 <body>
+  <textarea id="editable-title" onblur="saveTitle()" placeholder="Enter your session name...">VipulFlow</textarea>
+  <p class="instructions">Use this tool to reflect on your emotional states. Log your mood, spot patterns, and build emotional intelligence. When ready, copy your data and share it with ChatGPT for personal insight, reframing, and growth suggestions.</p>
 
-  <textarea id="editable-title" onblur="saveTitle()" placeholder="Enter your session name...">VipulFlow</textarea>  <div class="section">
-
+  <div class="section">
     <label for="mood">How are you feeling?</label>
-
     <select id="mood">
-
       <option>Choose...</option>
-
       <option>Calm</option>
-
       <option>Anxious</option>
-
       <option>Focused</option>
-
       <option>Distracted</option>
-
       <option>Overwhelmed</option>
-
       <option>Creative</option>
+    </select>
 
-    </select><label for="trigger">What triggered this? (optional)</label>
+    <label for="trigger">What triggered this? (optional)</label>
+    <textarea id="trigger" rows="2" placeholder="e.g. conversation, work stress, no idea..."></textarea>
 
-<textarea id="trigger" rows="2" placeholder="e.g. conversation, work stress, no idea..."></textarea>
+    <label for="note">Want to leave a note?</label>
+    <textarea id="note" rows="3"></textarea>
 
-<label for="note">Want to leave a note?</label>
+    <button onclick="saveEntry()">Save Reflection</button>
+  </div>
 
-<textarea id="note" rows="3"></textarea>
-
-<button onclick="saveEntry()">Save Reflection</button>
-
-  </div>  <div class="section">
-
+  <div class="section">
     <h2>2-Minute Anchor</h2>
-
     <p>Breathe with the circle:</p>
-
     <div class="breathing-box"></div>
-
     <p style="text-align:center;">"I am safe. I am present. I am in flow."</p>
+  </div>
 
-  </div>  <div class="section flow-links">
-
+  <div class="section flow-links">
     <h2>Enter Flow</h2>
-
     <a href="https://anandvip.github.io/" target="_blank">Open Sandbox</a>
-
     <a href="https://chat.openai.com/" target="_blank">Open ChatGPT</a>
-
     <a href="https://codepen.io/" target="_blank">Code Playground</a>
+  </div>
 
-  </div>  <div class="section" id="log-section">
-
+  <div class="section" id="log-section">
     <h2>Reflection Log</h2>
-
     <div id="log"></div>
+  </div>
 
-  </div>  <div class="section">
-
+  <div class="section">
     <h2>Mood Trends</h2>
-
     <div id="mood-trends"></div>
+  </div>
 
-  </div>  <div id="toast" class="toast">Saved. Check back whenever you want to reflect.</div>  <script>
+  <div class="section">
+    <h2>Copy Reflection Data</h2>
+    <button onclick="copyReflections()">Copy to Clipboard</button>
+    <pre id="json-output" class="copy-area"></pre>
+  </div>
+
+  <div id="toast" class="toast">Saved. Check back whenever you want to reflect.</div>
+
+  <script>
+    const chatPrompt = `Analyze my reflection logs. What patterns, distortions, or insights can you spot about my emotional responses and self-talk?`;
 
     function showToast(message) {
-
       const toast = document.getElementById('toast');
-
       toast.textContent = message;
-
       toast.classList.add('show');
-
       setTimeout(() => {
-
         toast.classList.remove('show');
-
       }, 3000);
-
     }
 
     function saveEntry() {
-
       const mood = document.getElementById('mood').value;
-
       const trigger = document.getElementById('trigger').value;
-
       const note = document.getElementById('note').value;
-
       const entry = {
-
         mood, trigger, note, time: new Date().toLocaleString()
-
       };
-
       let log = JSON.parse(localStorage.getItem('vipulflow-log') || '[]');
-
       log.push(entry);
-
       localStorage.setItem('vipulflow-log', JSON.stringify(log));
-
       showToast("Saved. Check back whenever you want to reflect.");
-
       document.getElementById('mood').value = 'Choose...';
-
       document.getElementById('trigger').value = '';
-
       document.getElementById('note').value = '';
-
       displayLog();
-
       displayMoodTrends();
-
     }
 
     function displayLog() {
-
       const logContainer = document.getElementById('log');
-
       const entries = JSON.parse(localStorage.getItem('vipulflow-log') || '[]');
-
       logContainer.innerHTML = entries.slice().reverse().map(entry => `
-
         <div class="log-entry">
-
           <p><strong>Time:</strong> ${entry.time}</p>
-
           <p><strong>Mood:</strong> ${entry.mood}</p>
-
           ${entry.trigger ? `<p><strong>Trigger:</strong> ${entry.trigger}</p>` : ''}
-
           ${entry.note ? `<p><strong>Note:</strong> ${entry.note}</p>` : ''}
-
         </div>
-
       `).join('');
-
     }
 
     function displayMoodTrends() {
-
       const trendContainer = document.getElementById('mood-trends');
-
       const entries = JSON.parse(localStorage.getItem('vipulflow-log') || '[]');
-
       const moodCount = {};
 
       entries.forEach(e => {
-
         if (!moodCount[e.mood]) moodCount[e.mood] = 0;
-
         moodCount[e.mood]++;
-
       });
 
       trendContainer.innerHTML = Object.entries(moodCount).map(([mood, count]) => `
-
         <p><strong>${mood}:</strong> ${'█'.repeat(count)} (${count})</p>
-
         <div class="bar" style="width: ${count * 20}px"></div>
-
       `).join('');
+    }
 
+    function copyReflections() {
+      const data = localStorage.getItem('vipulflow-log') || '[]';
+      navigator.clipboard.writeText(data).then(() => {
+        document.getElementById('json-output').textContent = data;
+        showToast("Copied! Open ChatGPT and paste it with this prompt: \n" + chatPrompt);
+      });
     }
 
     function saveTitle() {
-
       const title = document.getElementById('editable-title').value.trim();
-
       localStorage.setItem('vipulflow-title', title);
-
       showToast("Session title saved");
-
     }
 
     window.onload = function() {
-
       const storedTitle = localStorage.getItem('vipulflow-title');
-
       if (storedTitle) document.getElementById('editable-title').value = storedTitle;
-
       displayLog();
-
       displayMoodTrends();
-
     };
-
-  </script></body>
-
+  </script>
+</body>
 </html>
