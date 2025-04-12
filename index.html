@@ -124,7 +124,17 @@
       <option>Distracted</option>
       <option>Overwhelmed</option>
       <option>Creative</option>
-    </select>
+    
+
+    <label for="trigger">What triggered this? (optional)</label>
+    <textarea id="trigger" rows="2" placeholder="e.g. conversation, work stress, no idea..."></textarea>
+
+    <label for="note">Want to leave a note?</label>
+    <textarea id="note" rows="3"></textarea>
+
+    <button onclick="saveEntry()">Save Reflection</button>
+  </div>
+</select>
     <sectio class="section">
       <p>
      <ol>
@@ -136,17 +146,7 @@
 </ol>
 
       </p>
-    </sectio>
-
-    <label for="trigger">What triggered this? (optional)</label>
-    <textarea id="trigger" rows="2" placeholder="e.g. conversation, work stress, no idea..."></textarea>
-
-    <label for="note">Want to leave a note?</label>
-    <textarea id="note" rows="3"></textarea>
-
-    <button onclick="saveEntry()">Save Reflection</button>
-  </div>
-
+    </section>
   <div class="section">
     <h2>2-Minute Anchor</h2>
     <p>Breathe with the circle:</p>
